@@ -41,6 +41,7 @@
     <Content Include="app\img\icon.png" />
     <Content Include="app\popup.html" />
     <Content Include="app\popup.js" />
+    <Content Include="app\Style.css" />
     <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
     <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
     <Content Include="screenshots\screenshot.png" />
