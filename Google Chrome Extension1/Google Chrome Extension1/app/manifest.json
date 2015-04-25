@@ -4,13 +4,14 @@
   "name": "Youtube extension thingy",
   "description": "Instant videos!",
   "version": "1.0",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/; object-src 'self'",
 
   "permissions": [
-    //Youtube ska in här
-      ""
+    "*://*.youtube.com/*",
+    "https://ajax.googleapis.com/"
   ],
   "browser_action": {
-    "default_icon": "img/icon.png", //Ikonen som visas
-    "default_popup": "popup.html" //Vad som händer onclick
+    "default_icon": "img/icon.png",
+    "default_popup": "popup.html"
   }
 }
