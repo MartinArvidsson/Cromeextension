@@ -2,3 +2,11 @@
     min-width: 357px;
     overflow-x: hidden;
 }
+#Renderlinks{
+    height:700px;
+    width:auto;
+}
+.Thumbnail{
+    width:120px;
+    height:90px;
+}
