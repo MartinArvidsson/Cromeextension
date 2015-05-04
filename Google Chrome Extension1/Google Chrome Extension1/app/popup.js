@@ -50,12 +50,15 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
     for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
         var title = document.createElement("h1");
         var atag = document.createElement("a");
+        var thumbnail = document.createElement("img");
         atag.className = "Thumbnail";
         atag.href = "#";
-        atag.image = response.items[i].snippet.thumbnails.default.url;
+        thumbnail.src = response.items[i].snippet.thumbnails.default.url;
+        atag.image = thumbnail;
         atag.style.width = 120 + "px";
         atag.style.height = 90 + "px";
 
+        
         atag.onclick = function () {
             var video = response.items[i].id.videoID;
             //Skicka med video variablen till en videospelare, Nästa veckas jobb.
@@ -67,6 +70,8 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         console.log(Title);
 
         Renderlinks.appendChild(title);
-        Renderlinks.appendChild(atag);        
+        
+        Renderlinks.appendChild(atag);
+        atag.appendChild(thumbnail);
     }
 }
