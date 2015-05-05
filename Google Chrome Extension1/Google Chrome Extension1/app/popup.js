@@ -7,6 +7,7 @@ function onYouTubeApiLoad() { //Sätter api nyckeln
     gapi.client.setApiKey('AIzaSyCxZBGJHV6dTszSVQ2c6lKDUmlx5EfmOws');
 }
 
+
 window.addEventListener("load", function () { //Sätter funktion på knappen som finns så att man kan kan använda den till att söka på saker.
     document.getElementById("searchbutton")
             .addEventListener("click", addSearch, false);
@@ -40,10 +41,15 @@ function onSearchResponse(response) { //Startar showResponse!"
     showResponse(response);
 }
 
-function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
+var publicVideo = null; //För att jag ska nå den i player.js ligger den här, Bättre lösningar?
 
+
+function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
+    var videoResponse = null;
+    videoResponse = response;
     for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
         var title = document.createElement("h1");
+        var desc = document.createElement("p");
         var atag = document.createElement("a");
         var thumbnail = document.createElement("img");
         atag.className = "Thumbnail";
@@ -52,20 +58,28 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         atag.image = thumbnail;
         atag.style.width = 120 + "px";
         atag.style.height = 90 + "px";
-
         
+        //ALTERNATIV LÖSNING: Skapa 1 publicVideo variabel för varje gång "i" loopar. Sätt den sedan till array positionens videoid , anropa sedan  i onclick 
+        //ALTERNATIV LÖSNING 2:KOLLA MEMORYUPPGIFT
         atag.onclick = function () {
-            alert("Test!");
-            var video = response.items[i].id.videoID;
+            
+            console.log(videoResponse);
+            publicVideo = videoResponse.items["Vad ska vara här"].id.videoId; // [i] måste bytas ut mot något unikt för just den (a) taggen, den läser sista positionen i arrayen just nu (10) dagsläget.
+            alert(publicVideo);
             //Skicka med video variablen till en videospelare, Nästa veckas jobb.
         };
-
-        var Title = response.items[i].snippet.title;
-        title.innerHTML = Title;
+        
+        console.log(response);
+        var _title = response.items[i].snippet.title;
+        title.innerHTML = _title;
+        
+        var _desc = response.items[i].snippet.description;
+        desc.innerHTML = _desc;
 
         Renderlinks.appendChild(title);
-        
+        Renderlinks.appendChild(desc);
         Renderlinks.appendChild(atag);
         atag.appendChild(thumbnail);
+        
     }
 }
