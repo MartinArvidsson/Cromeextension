@@ -18,8 +18,6 @@ String (searchinformation); //Sätts till sträng
 function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
 
     searchinformation = document.getElementById('searchbar').value;
-
-    document.getElementById('response').innerHTML = "";
     document.getElementById('Renderlinks').innerHTML = "";
 
     search();
@@ -43,9 +41,6 @@ function onSearchResponse(response) { //Startar showResponse!"
 }
 
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
-    console.log(response)
-    //var responseString = JSON.stringify(response, '', 2);
-    //document.getElementById('response').innerHTML += responseString;
 
     for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
         var title = document.createElement("h1");
@@ -60,14 +55,13 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         
         atag.onclick = function () {
+            alert("Test!");
             var video = response.items[i].id.videoID;
             //Skicka med video variablen till en videospelare, Nästa veckas jobb.
         };
-        console.log(atag.image);
 
         var Title = response.items[i].snippet.title;
         title.innerHTML = Title;
-        console.log(Title);
 
         Renderlinks.appendChild(title);
         
