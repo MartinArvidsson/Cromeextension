@@ -10,3 +10,13 @@
     width:120px;
     height:90px;
 }
+#hiddenID{
+    visibility:hidden;
+}
+#videoArea{
+    border:solid 2px black;
+}
+#searchArea{
+    margin-left:auto;
+    margin-right:auto;
+}

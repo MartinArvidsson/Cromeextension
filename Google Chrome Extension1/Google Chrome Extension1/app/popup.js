@@ -48,40 +48,52 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
     var videoResponse = null;
     videoResponse = response;
     for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
-        var title = document.createElement("h1");
-        var desc = document.createElement("p");
-        var atag = document.createElement("a");
         var area = document.createElement("div");
+        area.id = "videoArea";
+        var title = document.createElement("h1");
+        title.id = "videoTitle";
+        var desc = document.createElement("p");
+        desc.id = "videoDescription";
+        var atag = document.createElement("a");
+        atag.id = "clickablePicture";
+        var tempvideoID = document.createElement("p");
+        tempvideoID.id = "hiddenID";
         var thumbnail = document.createElement("img");
+        thumbnail.id = "pictureThumbnail";
+
         atag.className = "Thumbnail";
         atag.href = "#";
         thumbnail.src = videoResponse.items[i].snippet.thumbnails.default.url;
         atag.image = thumbnail;
         atag.style.width = 120 + "px";
         atag.style.height = 90 + "px";
-        
-        //ALTERNATIV LÖSNING: Skapa 1 publicVideo variabel för varje gång "i" loopar. Sätt den sedan till array positionens videoid , anropa sedan  i onclick 
-        area.onclick = function () {
-            
-            console.log(videoResponse.items);
-            publicVideo = videoResponse.items["Vad ska vara här ? Matchande plats som atagen har? hur ?"].id.videoId; // [i] måste bytas ut mot något unikt för just den (a) taggen, den läser sista positionen i arrayen just nu (10) dagsläget.
-            alert(publicVideo);
-            //Skicka med video variablen till en videospelare, Nästa veckas jobb.
-        };
-        
-        console.log(response);
+
         var _title = response.items[i].snippet.title;
         title.innerHTML = _title;
-        
+
         var _desc = response.items[i].snippet.description;
         desc.innerHTML = _desc;
 
+        var _tempvideoID = response.items[i].id.videoId;
+        tempvideoID.innerHTML = _tempvideoID;
+              
         Renderlinks.appendChild(area);
 
         area.appendChild(title);
         area.appendChild(desc);
         area.appendChild(atag);
+        area.appendChild(tempvideoID);
         atag.appendChild(thumbnail);
-        
+
+        area.onclick = function () {
+            var currentVideoID = this.lastChild.innerHTML;
+            publicVideo = currentVideoID;
+            
+            location.href = "Player.html";
+        };
     }
+
+
+
+
 }
