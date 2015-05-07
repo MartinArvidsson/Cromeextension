@@ -51,20 +51,20 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         var title = document.createElement("h1");
         var desc = document.createElement("p");
         var atag = document.createElement("a");
+        var area = document.createElement("div");
         var thumbnail = document.createElement("img");
         atag.className = "Thumbnail";
         atag.href = "#";
-        thumbnail.src = response.items[i].snippet.thumbnails.default.url;
+        thumbnail.src = videoResponse.items[i].snippet.thumbnails.default.url;
         atag.image = thumbnail;
         atag.style.width = 120 + "px";
         atag.style.height = 90 + "px";
         
         //ALTERNATIV LÖSNING: Skapa 1 publicVideo variabel för varje gång "i" loopar. Sätt den sedan till array positionens videoid , anropa sedan  i onclick 
-        //ALTERNATIV LÖSNING 2:KOLLA MEMORYUPPGIFT
-        atag.onclick = function () {
+        area.onclick = function () {
             
-            console.log(videoResponse);
-            publicVideo = videoResponse.items["Vad ska vara här"].id.videoId; // [i] måste bytas ut mot något unikt för just den (a) taggen, den läser sista positionen i arrayen just nu (10) dagsläget.
+            console.log(videoResponse.items);
+            publicVideo = videoResponse.items["Vad ska vara här ? Matchande plats som atagen har? hur ?"].id.videoId; // [i] måste bytas ut mot något unikt för just den (a) taggen, den läser sista positionen i arrayen just nu (10) dagsläget.
             alert(publicVideo);
             //Skicka med video variablen till en videospelare, Nästa veckas jobb.
         };
@@ -76,9 +76,11 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         var _desc = response.items[i].snippet.description;
         desc.innerHTML = _desc;
 
-        Renderlinks.appendChild(title);
-        Renderlinks.appendChild(desc);
-        Renderlinks.appendChild(atag);
+        Renderlinks.appendChild(area);
+
+        area.appendChild(title);
+        area.appendChild(desc);
+        area.appendChild(atag);
         atag.appendChild(thumbnail);
         
     }
