@@ -11,7 +11,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: publicVideo, // Videovariablen från popup.js rad 90 ska fungera här-
+        videoId: '2vbntouY7F8', // Videovariablen från popup.js rad 90 ska fungera här-
         events: {
             'onReady': onPlayerReady,
         }

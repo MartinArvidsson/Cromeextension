@@ -1,0 +1,14 @@
+Köra "player.js" "inuti" popup.js onclick funktion på <div>
+taggen?
+
+
+Köra videon inline på sidan?
+
+Klicka video -> expandera div:en med en iframe videospelare
+som spelar videon.
+
+* Stänga fönstret?
+
+
+**Slipper 2 sidor, klarar mig med 1 sida och 1 script.
+

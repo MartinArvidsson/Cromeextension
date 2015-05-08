@@ -9,15 +9,21 @@ function onYouTubeApiLoad() { //Sätter api nyckeln
 
 
 window.addEventListener("load", function () { //Sätter funktion på knappen som finns så att man kan kan använda den till att söka på saker.
-    document.getElementById("searchbutton")
-            .addEventListener("click", addSearch, false);
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    document.getElementById("form")
+            .addEventListener("submit", addSearch, false);
 }, false);
 
 var searchinformation = ""; //Variabeln som används för att söka skapas
 String (searchinformation); //Sätts till sträng
 
-function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
-
+function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
+    e.preventDefault();
     searchinformation = document.getElementById('searchbar').value;
     document.getElementById('Renderlinks').innerHTML = "";
 
@@ -41,12 +47,12 @@ function onSearchResponse(response) { //Startar showResponse!"
     showResponse(response);
 }
 
-var publicVideo = null; //För att jag ska nå den i player.js ligger den här, Bättre lösningar?
+
 
 
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
-    var videoResponse = null;
-    videoResponse = response;
+    //var videoResponse = null;
+    //videoResponse = response;
     for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
         var area = document.createElement("div");
         area.id = "videoArea";
@@ -56,14 +62,15 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         desc.id = "videoDescription";
         var atag = document.createElement("a");
         atag.id = "clickablePicture";
-        var tempvideoID = document.createElement("p");
-        tempvideoID.id = "hiddenID";
         var thumbnail = document.createElement("img");
         thumbnail.id = "pictureThumbnail";
+        var videoplayer = document.createElement("div");
+        videoplayer.id = "player"
+
 
         atag.className = "Thumbnail";
         atag.href = "#";
-        thumbnail.src = videoResponse.items[i].snippet.thumbnails.default.url;
+        thumbnail.src = response.items[i].snippet.thumbnails.default.url;
         atag.image = thumbnail;
         atag.style.width = 120 + "px";
         atag.style.height = 90 + "px";
@@ -75,25 +82,56 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         desc.innerHTML = _desc;
 
         var _tempvideoID = response.items[i].id.videoId;
-        tempvideoID.innerHTML = _tempvideoID;
+        area.setAttribute("video-id", _tempvideoID);
               
         Renderlinks.appendChild(area);
 
         area.appendChild(title);
         area.appendChild(desc);
         area.appendChild(atag);
-        area.appendChild(tempvideoID);
         atag.appendChild(thumbnail);
+        area.appendChild(videoplayer);
+
+
 
         area.onclick = function () {
-            var currentVideoID = this.lastChild.innerHTML;
-            publicVideo = currentVideoID;
+            var currentVideoID = this.getAttribute("video-id");
+
             
-            location.href = "Player.html";
+
+            var player = this.lastChild;
+
+            var tmpplayer = document.getElementById("playertmp");
+            if (tmpplayer)
+                tmpplayer.parentElement.removeChild(tmpplayer);
+            tmpplayer = document.createElement("div");
+            tmpplayer.id = "playertmp";
+            this.appendChild(tmpplayer);
+
+            newPlayer(currentVideoID, tmpplayer);
+
+            console.log(player); 
         };
     }
+}
 
+function onYouTubeIframeAPIReady() {
+    console.log("Entered function onyoutubeapiready THIS IS GLOBAL") // DEN HÄR blir anropad inte den andra, måste tydligen ligga globalt . Fml
+    
+}
 
+function newPlayer(id,elem) {
 
+    player = new YT.Player(elem, {
+        height: '390',
+        width: '640',
+        videoId: id,
+        events: {
+            'onReady': onPlayerReady,
+        }
+    });
 
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
 }
