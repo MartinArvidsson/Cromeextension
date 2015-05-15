@@ -1,22 +1,53 @@
-﻿body {
+﻿body { /*bredden på extensionet, etc.*/
     min-width: 670px;
     overflow-x: hidden;
 }
-#Renderlinks{
-    height:700px;
-    width:auto;
+
+#Renderlinks { /*Listan med resultatet.*/
+    display:block;
+    overflow:auto;
+    width: auto;
 }
-.Thumbnail{
-    width:120px;
-    height:90px;
+
+.Thumbnail { /*Tumnagelns storlek*/
+    width: 120px;
+    height: 90px;
 }
-#hiddenID{
-    visibility:hidden;
+
+#videoArea { /*Här visas informationen om varje video , stylar "hela" elementet , mer specifik styling på tumnagel etc. kommer nedan*/
+    border: solid 2px black;
 }
-#videoArea{
-    border:solid 2px black;
+
+#searchArea { /*topdelen, innehållet stylas nedan*/
+    background-color: #C21F1F;
+    border-bottom: solid 3px black;
 }
-#searchArea{
-    margin-left:auto;
-    margin-right:auto;
+
+#mainTitle { /*Innehållet i topdelen , sökbar samt en titel*/
+    text-align: center;
+    font-family: Gabriola;
+    font-size: 35px;
+    margin-bottom: -15px;
+    margin-top:-15px;
+}
+
+#searchbar {
+    margin-bottom: 8px;
+    border: solid 1px black;
+}
+#form {
+text-align:center;
+}
+#videoArea {
+background-color:green;
+height:110px;
+
+}
+#videoTitle {
+background-color:transparent;
+margin-top:-1px;
+}
+#pictureThumbnail {
+margin-left:10px;
+margin-top:-77.5px;
 }

@@ -8,7 +8,7 @@ function _onChromeWebRequestBeforeSendHeaders(info) {
     var refererRequestHeader = _getHeader(info.requestHeaders, 'Referer');
     var referer = 'https://www.youtube.com/';
 
-    if ((refererRequestHeader)) { //<--- HÄR ÄR DET FEL VET INTE HUR JAG SKA LÖSA, MEN INTE MYCKET KVAR IALLAFALL ;---;
+    if (_.isUndefined(refererRequestHeader)) { //<--- HÄR ÄR DET FEL VET INTE HUR JAG SKA LÖSA, MEN INTE MYCKET KVAR IALLAFALL ;---;
         info.requestHeaders.push({
             name: 'Referer',
             value: referer

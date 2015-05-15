@@ -31,7 +31,7 @@ function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg de
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
     
     chrome.runtime.getBackgroundPage(initialize);
-
+    
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
         q: searchinformation,
@@ -92,18 +92,41 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
             var currentVideoID = this.getAttribute("video-id");
 
-
-
             var player = this.lastChild;
 
+
             var tmpplayer = document.getElementById("playertmp");
-            if (tmpplayer)
+            if (tmpplayer) {
+                tmpplayer.parentElement.setAttribute("style", "height:110px;  background-color:Green;")
+   
+                h1.setAttribute("hidden", false);               
+                p.setAttribute("hidden", false);                
+                a.setAttribute("hidden", false);
+
                 tmpplayer.parentElement.removeChild(tmpplayer);
+
+            }
             tmpplayer = document.createElement("div");
             tmpplayer.id = "playertmp";
             this.appendChild(tmpplayer);
+            this.setAttribute("style", "height:410px;  background-color:#1B1B1B;");
+
+            var h1 = document.querySelector("#videoTitle");
+            var p = document.querySelector("#videoDescription");
+            var a = document.querySelector("#clickablePicture");
+            h1.setAttribute("hidden", true);
+            p.setAttribute("hidden", true);
+            a.setAttribute("hidden", true);
+
+
             newPlayer(currentVideoID, tmpplayer);
         };
+    }
+}
+
+function setAttributes(el, attrs) {
+    for (var key in attrs) {
+        el.setAttribute(key, attrs[key]);
     }
 }
 
@@ -112,7 +135,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
-
+    
     player = new YT.Player(elem, {
         height: '390',
         width: '640',
