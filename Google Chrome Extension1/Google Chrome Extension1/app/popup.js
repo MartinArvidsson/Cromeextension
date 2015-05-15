@@ -1,7 +1,6 @@
 function onClientLoad() { //När plug:inet laddas körs detta och "onYoutubeApiLoad körs"
     gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
 }
-
 function onYouTubeApiLoad() { //Sätter api nyckeln
 
     gapi.client.setApiKey('AIzaSyCxZBGJHV6dTszSVQ2c6lKDUmlx5EfmOws');
@@ -20,7 +19,7 @@ window.addEventListener("load", function () { //Sätter funktion på knappen som f
 }, false);
 
 var searchinformation = ""; //Variabeln som används för att söka skapas
-String (searchinformation); //Sätts till sträng
+String(searchinformation); //Sätts till sträng
 
 function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
     e.preventDefault();
@@ -29,31 +28,27 @@ function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg de
 
     search();
 }
-
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
+    
+    chrome.runtime.getBackgroundPage(initialize);
 
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
         q: searchinformation,
         maxResults: 10,
+        format: 5,
         type: 'video',
     });
-
     request.execute(onSearchResponse);
 }
 
-
-function onSearchResponse(response) { //Startar showResponse!"
+function onSearchResponse(response) {
     showResponse(response);
 }
 
-
-
-
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
-    //var videoResponse = null;
-    //videoResponse = response;
-    for (var i = 0; i < response.items.length; i++) { //<-- fixar tumnagelbilder , fungerar inte. Bilderna syns inte, visas dock i konsolen.
+
+    for (var i = 0; i < response.items.length; i++) { //<-- fixar Tumnaglar, Titel, beskrivning och bild. Samt sätter onclick event
         var area = document.createElement("div");
         area.id = "videoArea";
         var title = document.createElement("h1");
@@ -83,7 +78,7 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         var _tempvideoID = response.items[i].id.videoId;
         area.setAttribute("video-id", _tempvideoID);
-              
+
         Renderlinks.appendChild(area);
 
         area.appendChild(title);
@@ -94,10 +89,10 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
 
 
-        area.onclick = function () {
+        area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
             var currentVideoID = this.getAttribute("video-id");
 
-            
+
 
             var player = this.lastChild;
 
@@ -107,31 +102,33 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
             tmpplayer = document.createElement("div");
             tmpplayer.id = "playertmp";
             this.appendChild(tmpplayer);
-
             newPlayer(currentVideoID, tmpplayer);
-
-            console.log(player); 
         };
     }
 }
 
 function onYouTubeIframeAPIReady() {
-    console.log("Entered function onyoutubeapiready THIS IS GLOBAL") // DEN HÄR blir anropad inte den andra, måste tydligen ligga globalt . Fml
-    
+    //skapar spelare så småning om   
 }
 
-function newPlayer(id,elem) {
+function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
 
     player = new YT.Player(elem, {
         height: '390',
         width: '640',
         videoId: id,
+        playerVars: {
+            'controls': 1,
+            'fs': 0,
+        },
         events: {
             'onReady': onPlayerReady,
         }
     });
 
-    function onPlayerReady(event) {
+    function onPlayerReady(event) { //Autostart på videon
+
         event.target.playVideo();
     }
-}
+};
+
