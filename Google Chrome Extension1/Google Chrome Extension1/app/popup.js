@@ -29,9 +29,9 @@ function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg de
     search();
 }
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
-    
+
     chrome.runtime.getBackgroundPage(initialize);
-    
+
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
         q: searchinformation,
@@ -81,6 +81,7 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         Renderlinks.appendChild(area);
 
+        
         area.appendChild(title);
         area.appendChild(desc);
         area.appendChild(atag);
@@ -91,54 +92,47 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
             var currentVideoID = this.getAttribute("video-id");
-
             var player = this.lastChild;
-
 
             var tmpplayer = document.getElementById("playertmp");
             if (tmpplayer) {
-                tmpplayer.parentElement.setAttribute("style", "height:110px;  background-color:Green;")
-   
-                h1.setAttribute("hidden", false);               
-                p.setAttribute("hidden", false);                
-                a.setAttribute("hidden", false);
+                tmpplayer.parentElement.setAttribute("style", "height:110px;  background-color:grey;")
+                var childs = tmpplayer.parentElement.childNodes;
+                for (i = 0; i < childs.length; i++) {
+                    console.log(childs[i].id)
+                    childs[0].setAttribute("style", "display: block;");
+                    childs[1].setAttribute("style", "display: block;");
+                    childs[2].setAttribute("style", "display: block;");
+                }
 
                 tmpplayer.parentElement.removeChild(tmpplayer);
-
             }
             tmpplayer = document.createElement("div");
             tmpplayer.id = "playertmp";
             this.appendChild(tmpplayer);
             this.setAttribute("style", "height:410px;  background-color:#1B1B1B;");
 
-            var h1 = document.querySelector("#videoTitle");
-            var p = document.querySelector("#videoDescription");
-            var a = document.querySelector("#clickablePicture");
-            h1.setAttribute("hidden", true);
-            p.setAttribute("hidden", true);
-            a.setAttribute("hidden", true);
+            var h1 = this.querySelector("#videoTitle");
+            var p = this.querySelector("#videoDescription");
+            var a = this.querySelector("#clickablePicture");
+            h1.setAttribute("style", "display: none;");
+            p.setAttribute("style", "display: none;");
+            a.setAttribute("style", "display: none;");
 
 
             newPlayer(currentVideoID, tmpplayer);
         };
     }
 }
-
-function setAttributes(el, attrs) {
-    for (var key in attrs) {
-        el.setAttribute(key, attrs[key]);
-    }
-}
-
 function onYouTubeIframeAPIReady() {
-    //skapar spelare så småning om   
+    //Visar att skapar spelar api:et har laddats in och går sedan vidare
 }
 
 function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
-    
+
     player = new YT.Player(elem, {
-        height: '390',
-        width: '640',
+        height: '410',
+        width: '670',
         videoId: id,
         playerVars: {
             'controls': 1,

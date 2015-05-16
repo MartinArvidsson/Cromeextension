@@ -2,6 +2,56 @@
     min-width: 670px;
     overflow-x: hidden;
 }
+body,html{
+    margin:0;
+    padding:0;
+}
+
+/*Här visas informationen om varje video , stylar "hela" elementet , mer specifik styling på tumnagel etc. kommer nedan*/
+#videoArea { 
+    border-bottom: solid 2px black;
+}
+
+
+
+#searchArea { /*topdelen, innehållet stylas nedan*/
+    background-color: #C21F1F;
+    border: solid 3px;
+    border-color:rgba(0,0,0,0.4);
+}
+/*Innehållet i topdelen , sökbar samt en titel*/
+/*#mainTitle { 
+    text-align: center;
+    font-family: Gabriola;
+    font-size: 35px;
+    margin-bottom: -15px;
+    margin-top:-8px;
+}*/
+
+#searchbar {
+    margin-bottom: 8px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 2px solid rgba(0,0,0,0.6);
+    width: 150px;
+    text-align:center;
+    font-family:monospace;
+}
+#searchbutton{
+      border-radius: 6px;
+      margin-top: 15px;
+      margin-left: 5px;
+      background-color: white;
+      border: 0;
+      outline: 0;
+      font-family: monospace;
+      border-bottom: 2px solid;
+}
+#form {
+text-align:center;
+}
+/*Topdelen*/
 
 #Renderlinks { /*Listan med resultatet.*/
     display:block;
@@ -9,45 +59,38 @@
     width: auto;
 }
 
-.Thumbnail { /*Tumnagelns storlek*/
-    width: 120px;
-    height: 90px;
+/*--Berör den klickbara länken*/
+#ClickablePicture{
+    position:absolute;
 }
 
-#videoArea { /*Här visas informationen om varje video , stylar "hela" elementet , mer specifik styling på tumnagel etc. kommer nedan*/
-    border: solid 2px black;
-}
-
-#searchArea { /*topdelen, innehållet stylas nedan*/
-    background-color: #C21F1F;
-    border-bottom: solid 3px black;
-}
-
-#mainTitle { /*Innehållet i topdelen , sökbar samt en titel*/
-    text-align: center;
-    font-family: Gabriola;
-    font-size: 35px;
-    margin-bottom: -15px;
-    margin-top:-15px;
-}
-
-#searchbar {
-    margin-bottom: 8px;
-    border: solid 1px black;
-}
-#form {
-text-align:center;
-}
 #videoArea {
-background-color:green;
+background-color:whitesmoke;
 height:110px;
 
+}
+
+#videoDescription{
+    position:absolute;
+    float:left;
+    margin-top:65px;
+    margin-left:145px;
 }
 #videoTitle {
 background-color:transparent;
 margin-top:-1px;
+position:absolute;
+float:left;
+margin-left:145px;
 }
 #pictureThumbnail {
 margin-left:10px;
-margin-top:-77.5px;
+margin-top:6.5px;
+border:solid 1px black;
+border-radius:35px;
+}
+/*--Klickbara länken--*/
+
+#playertmp{
+    text-align:center;
 }
