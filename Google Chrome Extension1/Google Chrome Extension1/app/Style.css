@@ -12,21 +12,11 @@ body,html{
     border-bottom: solid 2px black;
 }
 
-
-
 #searchArea { /*topdelen, innehållet stylas nedan*/
-    background-color: #C21F1F;
+    background-color: #CC181E;
     border: solid 3px;
     border-color:rgba(0,0,0,0.4);
 }
-/*Innehållet i topdelen , sökbar samt en titel*/
-/*#mainTitle { 
-    text-align: center;
-    font-family: Gabriola;
-    font-size: 35px;
-    margin-bottom: -15px;
-    margin-top:-8px;
-}*/
 
 #searchbar {
     margin-bottom: 8px;
@@ -37,6 +27,9 @@ body,html{
     width: 150px;
     text-align:center;
     font-family:monospace;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
 }
 #searchbutton{
       border-radius: 6px;
@@ -73,15 +66,17 @@ height:110px;
 #videoDescription{
     position:absolute;
     float:left;
-    margin-top:65px;
+    margin-top:55px;
     margin-left:145px;
+    font-family:monospace;
 }
 #videoTitle {
 background-color:transparent;
-margin-top:-1px;
+margin-top:5px;
 position:absolute;
 float:left;
 margin-left:145px;
+font-family:monospace;
 }
 #pictureThumbnail {
 margin-left:10px;
