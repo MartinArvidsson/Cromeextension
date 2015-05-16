@@ -1,5 +1,6 @@
 function onClientLoad() { //När plug:inet laddas körs detta och "onYoutubeApiLoad körs"
     gapi.client.load('youtube', 'v3', onYouTubeApiLoad);
+    document.getElementById("searchbar").focus();
 }
 function onYouTubeApiLoad() { //Sätter api nyckeln
 
@@ -16,13 +17,23 @@ window.addEventListener("load", function () { //Sätter funktion på knappen som f
 
     document.getElementById("form")
             .addEventListener("submit", addSearch, false);
+
+    document.getElementById("searchbar").addEventListener("keydown",TimedSearch,false)
+
+    document.getElementById("searchbar")
 }, false);
 
 var searchinformation = ""; //Variabeln som används för att söka skapas
 String(searchinformation); //Sätts till sträng
 
-function addSearch(e) { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
-    e.preventDefault();
+var timer = null;
+function TimedSearch() {
+    clearTimeout(timer);
+    timer = setTimeout(addSearch,1000)
+};
+
+function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
+
     searchinformation = document.getElementById('searchbar').value;
     document.getElementById('Renderlinks').innerHTML = "";
 
@@ -59,8 +70,6 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         atag.id = "clickablePicture";
         var thumbnail = document.createElement("img");
         thumbnail.id = "pictureThumbnail";
-        var videoplayer = document.createElement("div");
-        videoplayer.id = "player"
 
 
         atag.className = "Thumbnail";
@@ -80,28 +89,23 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         area.setAttribute("video-id", _tempvideoID);
 
         Renderlinks.appendChild(area);
-
         
         area.appendChild(title);
         area.appendChild(desc);
         area.appendChild(atag);
         atag.appendChild(thumbnail);
-        area.appendChild(videoplayer);
-
-
 
         area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
             var currentVideoID = this.getAttribute("video-id");
-            var player = this.lastChild;
+
 
             var tmpplayer = document.getElementById("playertmp");
             if (tmpplayer) {
                 tmpplayer.parentElement.setAttribute("style", "height:110px;  background-color:grey;")
                 var childs = tmpplayer.parentElement.childNodes;
                 for (i = 0; i < childs.length; i++) {
-                    console.log(childs[i].id)
-                    childs[0].setAttribute("style", "display: block;");
-                    childs[1].setAttribute("style", "display: block;");
+                    childs[0].setAttribute("style", "display: block; color:white;");
+                    childs[1].setAttribute("style", "display: block; color:white;");
                     childs[2].setAttribute("style", "display: block;");
                 }
 
@@ -119,6 +123,7 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
             p.setAttribute("style", "display: none;");
             a.setAttribute("style", "display: none;");
 
+            this.focus(); //Wip
 
             newPlayer(currentVideoID, tmpplayer);
         };
@@ -129,7 +134,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
-
     player = new YT.Player(elem, {
         height: '410',
         width: '670',
@@ -143,8 +147,7 @@ function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner g
         }
     });
 
-    function onPlayerReady(event) { //Autostart på videon
-
+    function onPlayerReady(event) { //Autostart på videon      
         event.target.playVideo();
     }
 };
