@@ -29,7 +29,7 @@ String(searchinformation); //Sätts till sträng
 var timer = null;
 function TimedSearch() {
     clearTimeout(timer);
-    timer = setTimeout(addSearch,1000)
+    timer = setTimeout(addSearch,500)
 };
 
 function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den som sträng, rensar också listan från tidigare sök
@@ -87,7 +87,6 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         var _tempvideoID = response.items[i].id.videoId;
         area.setAttribute("video-id", _tempvideoID);
-        area.setAttribute("tabindex", [i]);
 
         Renderlinks.appendChild(area);
         
@@ -112,25 +111,26 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
                 tmpplayer.parentElement.removeChild(tmpplayer);
             }
+
             tmpplayer = document.createElement("div");
             tmpplayer.id = "playertmp";
             this.appendChild(tmpplayer);
             this.setAttribute("style", "height:410px;  background-color:#1B1B1B;");
-            var h1 = this.querySelector("#videoTitle");
-            var p = this.querySelector("#videoDescription");
-            var a = this.querySelector("#clickablePicture");
-            h1.setAttribute("style", "display: none;");
-            p.setAttribute("style", "display: none;");
-            a.setAttribute("style", "display: none;");
+            var childs = this.childNodes;
+            for (i = 0; i < childs.length; i++) {
+                childs[0].setAttribute("style", "display: none;");
+                childs[1].setAttribute("style", "display: none;");
+                childs[2].setAttribute("style", "display: none;");
 
-            console.log(this);
-            this.focus();
+            }
+            
             newPlayer(currentVideoID, tmpplayer);
         };
     }
 }
 function onYouTubeIframeAPIReady() {
     //Visar att skapar spelar api:et har laddats in och går sedan vidare
+    console.log(this)
 }
 
 function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
@@ -140,7 +140,7 @@ function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner g
         videoId: id,
         playerVars: {
             'controls': 1,
-            'fs': 1,
+            'fs': 0,
         },
         events: {
             'onReady': onPlayerReady,
