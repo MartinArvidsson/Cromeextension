@@ -41,7 +41,7 @@ function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den
 }
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
 
-    chrome.runtime.getBackgroundPage(initialize);
+    //chrome.runtime.getBackgroundPage(initialize);
 
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
@@ -58,7 +58,7 @@ function onSearchResponse(response) {
 }
 
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
-
+    document.getElementById("searchbar").blur();
     for (var i = 0; i < response.items.length; i++) { //<-- fixar Tumnaglar, Titel, beskrivning och bild. Samt sätter onclick event
         var area = document.createElement("div");
         area.id = "videoArea";
@@ -87,6 +87,7 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
         var _tempvideoID = response.items[i].id.videoId;
         area.setAttribute("video-id", _tempvideoID);
+        area.setAttribute("tabindex", [i]);
 
         Renderlinks.appendChild(area);
         
@@ -96,12 +97,12 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         atag.appendChild(thumbnail);
 
         area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
+            
             var currentVideoID = this.getAttribute("video-id");
-
-
+            
             var tmpplayer = document.getElementById("playertmp");
             if (tmpplayer) {
-                tmpplayer.parentElement.setAttribute("style", "height:110px;  background-color:grey;")
+                tmpplayer.parentElement.setAttribute("style", "height:125px;  background-color:grey;")
                 var childs = tmpplayer.parentElement.childNodes;
                 for (i = 0; i < childs.length; i++) {
                     childs[0].setAttribute("style", "display: block; color:white;");
@@ -115,7 +116,6 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
             tmpplayer.id = "playertmp";
             this.appendChild(tmpplayer);
             this.setAttribute("style", "height:410px;  background-color:#1B1B1B;");
-
             var h1 = this.querySelector("#videoTitle");
             var p = this.querySelector("#videoDescription");
             var a = this.querySelector("#clickablePicture");
@@ -123,8 +123,8 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
             p.setAttribute("style", "display: none;");
             a.setAttribute("style", "display: none;");
 
-            this.focus(); //Wip
-
+            console.log(this);
+            this.focus();
             newPlayer(currentVideoID, tmpplayer);
         };
     }
@@ -140,7 +140,7 @@ function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner g
         videoId: id,
         playerVars: {
             'controls': 1,
-            'fs': 0,
+            'fs': 1,
         },
         events: {
             'onReady': onPlayerReady,
