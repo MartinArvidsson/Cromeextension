@@ -41,7 +41,7 @@ function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den
 }
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
 
-    //chrome.runtime.getBackgroundPage(initialize);
+    //chrome.runtime.getBackgroundPage(initialize); //Fixa på onsdag, kastar massor av fel i dagsläget
 
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
@@ -56,9 +56,11 @@ function search() { //Söker i data-api:et efter relevanta resultat och skriver s
 function onSearchResponse(response) {
     showResponse(response);
 }
-
+var _scrollpos = null;
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
+
     document.getElementById("searchbar").blur();
+
     for (var i = 0; i < response.items.length; i++) { //<-- fixar Tumnaglar, Titel, beskrivning och bild. Samt sätter onclick event
         var area = document.createElement("div");
         area.id = "videoArea";
@@ -96,7 +98,7 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
         atag.appendChild(thumbnail);
 
         area.onclick = function () { //Onlclickeventet fungerar att när du tycker skapas en spelare om ingen existerar, Finns redan en video som spelas tas den bort innan en ny skapas
-            
+            _scrollpos = window.scrollY;
             var currentVideoID = this.getAttribute("video-id");
             
             var tmpplayer = document.getElementById("playertmp");
@@ -130,7 +132,6 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 }
 function onYouTubeIframeAPIReady() {
     //Visar att skapar spelar api:et har laddats in och går sedan vidare
-    console.log(this)
 }
 
 function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner googles webrequest api.
@@ -148,6 +149,7 @@ function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner g
     });
 
     function onPlayerReady(event) { //Autostart på videon      
+        window.scrollTo(0, _scrollpos);
         event.target.playVideo();
     }
 };
