@@ -16,7 +16,7 @@ body, html {
 #searchArea { /*topdelen, innehållet stylas nedan*/
     background-color: #CC181E;
     border-top-left-radius: 5px;
-    border-bottom-right-radius:5px;
+    border-top-right-radius:5px;
 }
 
 #searchbar {

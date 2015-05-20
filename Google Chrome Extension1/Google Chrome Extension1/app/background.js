@@ -1,19 +1,19 @@
 ﻿function initialize() {
     console.log("Entered")
     chrome.webRequest.onBeforeSendHeaders.addListener(_onChromeWebRequestBeforeSendHeaders, {
-        urls: ["<all_urls>"]
+        urls: ["https://www.youtube.com/embed/*"]
     }, ['blocking', 'requestHeaders']);
 }
 function _onChromeWebRequestBeforeSendHeaders(info) {
     var refererRequestHeader = _getHeader(info.requestHeaders, 'Referer');
     var referer = 'https://www.youtube.com/';
 
-    if (_.isUndefined(refererRequestHeader)) { //<--- HÄR ÄR DET FEL VET INTE HUR JAG SKA LÖSA, MEN INTE MYCKET KVAR IALLAFALL ;---;
-        info.requestHeaders.push({
-            name: 'Referer',
-            value: referer
-        });
-    }
+    info.requestHeaders.push({
+        name: 'Referer',
+        value: referer
+    });
+
+    return {requestHeaders: info.requestHeaders};
 }
 function _getHeader(requestHeaders, headerName) {
     var refererRequestHeader = find(requestHeaders, function (requestHeader) {
@@ -21,7 +21,6 @@ function _getHeader(requestHeaders, headerName) {
     });
     return refererRequestHeader;
 }
-
 
 //Chrome extension's don't provide a 'Referer' value by design. You need to send a 'Referer' when making requests to YouTube in order to be able to watch a lot of their videos.
 //    https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/view/youTubePlayerView.js#L63

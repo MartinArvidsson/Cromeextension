@@ -10,17 +10,15 @@ function onYouTubeApiLoad() { //Sätter api nyckeln
 
 window.addEventListener("load", function () { //Sätter funktion på knappen som finns så att man kan kan använda den till att söka på saker.
     var tag = document.createElement('script');
+    chrome.runtime.getBackgroundPage(initialize); //Fixa på onsdag, kastar massor av fel i dagsläget
 
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    document.getElementById("form")
-            .addEventListener("submit", addSearch, false);
+    document.getElementById("searchbar").addEventListener("keydown", TimedSearch, false);
 
-    document.getElementById("searchbar").addEventListener("keydown",TimedSearch,false)
 
-    document.getElementById("searchbar")
 }, false);
 
 var searchinformation = ""; //Variabeln som används för att söka skapas
@@ -41,7 +39,7 @@ function addSearch() { //Hämtar sökrutan, tar informationen och skickar iväg den
 }
 function search() { //Söker i data-api:et efter relevanta resultat och skriver sedan ut dom via "onSearchResponse"
 
-    //chrome.runtime.getBackgroundPage(initialize); //Fixa på onsdag, kastar massor av fel i dagsläget
+    
 
     var request = gapi.client.youtube.search.list({
         part: 'snippet',
@@ -59,7 +57,7 @@ function onSearchResponse(response) {
 var _scrollpos = null;
 function showResponse(response) { //Skriver ut svaret på vad som har hämtats från data-Api:et
 
-    document.getElementById("searchbar").blur();
+    //document.getElementById("searchbar").blur();
 
     for (var i = 0; i < response.items.length; i++) { //<-- fixar Tumnaglar, Titel, beskrivning och bild. Samt sätter onclick event
         var area = document.createElement("div");
@@ -126,6 +124,8 @@ function showResponse(response) { //Skriver ut svaret på vad som har hämtats frå
 
             }
             
+
+
             newPlayer(currentVideoID, tmpplayer);
         };
     }
