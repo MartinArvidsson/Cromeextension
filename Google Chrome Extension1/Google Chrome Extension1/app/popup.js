@@ -141,7 +141,7 @@ function newPlayer(id, elem) { //Fått extremt mycket hjälp med detta, anvädner g
         videoId: id,
         playerVars: {
             'controls': 1,
-            'fs': 0,
+            'fs': 0
         },
         events: {
             'onReady': onPlayerReady,
